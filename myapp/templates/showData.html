@@ -25,6 +25,10 @@
         <td style="padding: 12px; border: 1px solid #ddd;">{{ d.email }}</td>
         <td style="padding: 12px; border: 1px solid #ddd;">{{ d.lastname }}</td>
         <td style="padding: 12px; border: 1px solid #ddd;">{{ d.message }}</td>
+        <td>
+            <a href='{% url "del" d.id %}'><button class="action-btn delete-btn">Delete</button></a>
+            <a href='{% url "update" d.id %}'><button class="action-btn update-btn">Update</button></a>
+        </td>
     </tr>
     {% endfor %}
 

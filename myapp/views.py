@@ -1,6 +1,7 @@
-from django.shortcuts import render,redirect,HttpResponse
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import Data
-from django.contrib import messages 
+from django.contrib import messages
+from .form import ContactForm
 
 # Create your views here.
 
@@ -22,9 +23,6 @@ def signin(request):
 def save(request):
     return render(request,'save.html')
 
-from django.shortcuts import render, redirect
-from django.contrib import messages  # Import messages framework
-from .models import Data  # Import your Data model
 
 def contact_data(request):
     if request.method == "POST":
@@ -43,7 +41,7 @@ def contact_data(request):
         #     subject=sub
         # )
         d = Data (
-             name=name,
+            name=name,
             lastname=last,
             email=email,
             message=msg,
@@ -64,3 +62,25 @@ def show_data(request):
     data  = Data.objects.all()
     
     return render(request,'showData.html',{'data':data})
+
+def delete(request,id):
+    a = Data.objects.get(id=id)
+    a.delete()
+    return redirect("show")
+
+def update_contact(request, id):
+    b = get_object_or_404(Data, id=id)
+    
+    if request.method == 'POST':
+        form = ContactForm(request.POST, instance=b)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    else:
+        form = ContactForm(instance=b)
+        
+    return render(request,'updatecontact.html',{'form':form})
+        
+    
+    
+    
